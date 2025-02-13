@@ -1,5 +1,5 @@
 #!/usr/bin/env pytho
-from pyngrok import ngrok
+
 import streamlit as st
 from transformers import pipeline
 
