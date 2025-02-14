@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import streamlit as st
 import random
+import requests
 
 
 def pregunta_aleatoria_placeholder():
@@ -27,21 +28,42 @@ def main():
 	st.markdown("<h3 style='color: #FF5733; font-size: 22px;'>📩 Escribe tu pregunta sobre recetas:</h3>", unsafe_allow_html=True)
 
 	def get_response(user_input):
-		# Respuestas simuladas (se pueden mejorar con IA o reglas más avanzadas)
-		responses = {
-			"¿Cómo hacer arroz con pollo?": "Para hacer arroz con pollo necesitas arroz, pollo, ajo, cebolla, pimiento, zanahoria, caldo de pollo y especias. Sofríe los ingredientes, agrega el arroz y el caldo, y cocina a fuego lento hasta que el arroz esté listo.",
-			"¿Cómo hacer arroz con leche?": "Para hacer arroz con leche necesitas arroz, leche, azúcar, canela y cáscara de limón. Cocina el arroz con leche a fuego bajo, agrega el azúcar y la canela, y cocina hasta obtener una textura cremosa.",
-			"¿Qué receta me recomiendas para un lunes?": "Para un lunes, te recomiendo una receta rápida y saludable, como una ensalada de pollo con aguacate, o una pasta con salsa de tomate casera.",
-			"¿Qué necesito para un manjar blanco?": "Para hacer manjar blanco necesitas leche, azúcar, maicena y esencia de vainilla. Cocina la mezcla a fuego lento, removiendo constantemente hasta que espese."
-		}
-		return responses.get(user_input, "Lo siento, no tengo esa información en este momento. Prueba con otra pregunta.")
+
+		# Configuración
+		API_KEY = "AIzaSyBGdqGYzr40xTMbUS3wfdQuwHU4Bf-AMyg"
+		API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
+
+		# Función para hacer la solicitud
+		def get_gemini_response(prompt):
+			headers = {"Content-Type": "application/json"}
+			data = {
+				"contents": [{
+					"parts": [{"text": prompt}]
+				}]
+			}
+
+			response = requests.post(API_URL, headers=headers, json=data)
+			
+			if response.status_code == 200:
+				return response.json()
+			else:
+				return {"error": response.text}
+
+		# Ejemplo de uso
+		prompt = "Dame una receta de cocina para un lunes"
+		response = get_gemini_response(prompt)
+
+		# print(response["candidates"][0]["content"]["parts"][0]["text"])
+		
+		return response["candidates"][0]["content"]["parts"][0]["text"]
+
 
 	user_input = st.text_input("", pregunta_aleatoria_placeholder())
 
 	col1, col2 = st.columns([2, 1])
 
 	with col1:
-		st.markdown("<h3 style='color: #FF5733;'>🍳 Haz tu pregunta:</h3>", unsafe_allow_html=True)
+		st.markdown("<h3 style='color: #FF5733;'>🍳 Clickea abajo para obtener una respuesta:</h3>", unsafe_allow_html=True)
 		
 		if st.button("🔍 Preguntar", help="Haz clic para obtener una receta"):
 			response = get_response(user_input)
@@ -55,26 +77,3 @@ def main():
 if __name__ == "__main__":
 	main()
 
-# from pyngrok import ngrok
-# import streamlit as st
-# from transformers import pipeline
-
-
-# chatbot = ppieline("conversational", model="microsoft/DialogGPT-medium")
-
-# def get_chatbot_response(user_input):
-# 	response = chatbot(user_input)
-# 	return response[0]["generated_text"]
-
-
-# st.title("Chatbot de Recetas de Cocina")
-# user_input = st.text_input("¿Que deseas saber sobre las recetas?")
-
-
-# if user_input:
-# 	response = get_chatbot_response(user_input)
-# 	st.write("Respuesta del chatbot: ", response)
-
-
-# public_url = ngrok.connect(8501)
-# print("El chatbot esta disponible en: ", public_url)
