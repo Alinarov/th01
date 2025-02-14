@@ -26,6 +26,15 @@ def main():
 	# Sección de entrada del usuario con estilo mejorado
 	st.markdown("<h3 style='color: #FF5733; font-size: 22px;'>📩 Escribe tu pregunta sobre recetas:</h3>", unsafe_allow_html=True)
 
+	def get_response(user_input):
+		# Respuestas simuladas (se pueden mejorar con IA o reglas más avanzadas)
+		responses = {
+			"¿Cómo hacer arroz con pollo?": "Para hacer arroz con pollo necesitas arroz, pollo, ajo, cebolla, pimiento, zanahoria, caldo de pollo y especias. Sofríe los ingredientes, agrega el arroz y el caldo, y cocina a fuego lento hasta que el arroz esté listo.",
+			"¿Cómo hacer arroz con leche?": "Para hacer arroz con leche necesitas arroz, leche, azúcar, canela y cáscara de limón. Cocina el arroz con leche a fuego bajo, agrega el azúcar y la canela, y cocina hasta obtener una textura cremosa.",
+			"¿Qué receta me recomiendas para un lunes?": "Para un lunes, te recomiendo una receta rápida y saludable, como una ensalada de pollo con aguacate, o una pasta con salsa de tomate casera.",
+			"¿Qué necesito para un manjar blanco?": "Para hacer manjar blanco necesitas leche, azúcar, maicena y esencia de vainilla. Cocina la mezcla a fuego lento, removiendo constantemente hasta que espese."
+		}
+		return responses.get(user_input, "Lo siento, no tengo esa información en este momento. Prueba con otra pregunta.")
 
 	user_input = st.text_input("", pregunta_aleatoria_placeholder())
 
@@ -42,15 +51,6 @@ def main():
 	with col2:
 		st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWIq2c1yUZB6A3SX-FujJCBfA9pxhTViZQ7A&s", caption="Recetas deliciosas", use_column_width=True)
 
-	def get_response(user_input):
-		# Respuestas simuladas (se pueden mejorar con IA o reglas más avanzadas)
-		responses = {
-			"¿Cómo hacer arroz con pollo?": "Para hacer arroz con pollo necesitas arroz, pollo, ajo, cebolla, pimiento, zanahoria, caldo de pollo y especias. Sofríe los ingredientes, agrega el arroz y el caldo, y cocina a fuego lento hasta que el arroz esté listo.",
-			"¿Cómo hacer arroz con leche?": "Para hacer arroz con leche necesitas arroz, leche, azúcar, canela y cáscara de limón. Cocina el arroz con leche a fuego bajo, agrega el azúcar y la canela, y cocina hasta obtener una textura cremosa.",
-			"¿Qué receta me recomiendas para un lunes?": "Para un lunes, te recomiendo una receta rápida y saludable, como una ensalada de pollo con aguacate, o una pasta con salsa de tomate casera.",
-			"¿Qué necesito para un manjar blanco?": "Para hacer manjar blanco necesitas leche, azúcar, maicena y esencia de vainilla. Cocina la mezcla a fuego lento, removiendo constantemente hasta que espese."
-		}
-		return responses.get(user_input, "Lo siento, no tengo esa información en este momento. Prueba con otra pregunta.")
 
 if __name__ == "__main__":
 	main()
