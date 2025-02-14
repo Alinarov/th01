@@ -50,11 +50,11 @@ def main():
 				return {"error": response.text}
 
 		# Ejemplo de uso
-		prompt = "Dame una receta de cocina para un lunes"
+		prompt = user_input
 		response = get_gemini_response(prompt)
 
 		# print(response["candidates"][0]["content"]["parts"][0]["text"])
-		
+
 		return response["candidates"][0]["content"]["parts"][0]["text"]
 
 
